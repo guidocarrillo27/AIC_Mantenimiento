@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from activos.models import Area,SubArea,Maquina,mantenimientos,Parte
-from .forms import CrearNuevaTarea, CrearNuevaArea, CrearMantenimiento,VerMantenimiento,VerMaquina,DetalleMantenimiento,NuevaMaquina,ActualizaMaquina,NuevaParte
+from activos.models import Area,SubArea,Maquina,mantenimientos,Parte,SubParte
+from .forms import CrearNuevaTarea, CrearNuevaArea, CrearMantenimiento,VerMantenimiento,VerMaquina,DetalleMantenimiento,NuevaMaquina,ActualizaMaquina,NuevaParte,ActualizaParte,VerParte,NuevaSubParte
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -64,6 +64,19 @@ def detalle_maquina(request,id):
         'partes':partes
     })
 
+def detalle_parte(request,id):
+    parte=get_object_or_404(Parte,id=id)
+    form=VerParte(instance=parte)
+    activa_guarda=False
+
+    subpartes=SubParte.objects.filter(parte_id=id)
+    return render(request,'partes/detalle_parte.html',{
+        'parte':parte,
+        'activa_guarda':activa_guarda,
+        'form':form,
+        'subpartes':subpartes
+    })
+
 @login_required
 def crear_subarea(request):
     #print(request.GET['codigo'])
@@ -117,8 +130,25 @@ def nueva_parte(request,id):
         
         return render(request,'partes/nueva_parte.html',{
         'form':()})
-
-
+    
+def nueva_subparte(request,id):   
+    if request.method=='GET':
+        parte=get_object_or_404(Parte,pk=id)
+        return render(request,'subpartes/nueva_subparte.html',{
+        'parte':parte,
+        'form':NuevaSubParte()})
+    else:
+        parte=get_object_or_404(Parte,pk=id)
+        form=NuevaSubParte(request.POST,request.FILES)
+        if form.is_valid():
+            nueva_subparte=form.save(commit=False)
+            nueva_subparte.save()
+            return redirect('detalle_parte',id=id)
+        else:
+            print(form.errors)
+        
+        return render(request,'subpartes/nueva_subparte.html',{
+        'form':()})
 
 @login_required    
 def crear_area(request):
@@ -164,6 +194,30 @@ def actualiza_maquina(request,id):
         except ValueError:
             return render(request,'maquinas/detalle_maquina.html',{
                                 'maquina':maquina,
+                                'activa_guarda':activa_guarda,
+                                'error':"Error actualizando la maquina",
+                                'form1':form})
+        
+def actualiza_parte(request,id):
+    if request.method=='GET':
+        parte=get_object_or_404(Parte,pk=id)
+        print(parte)
+        form=ActualizaParte(instance=parte)
+        activa_guarda=True
+        return render(request,'partes/detalle_parte.html',{
+        'parte':parte,
+        'activa_guarda':activa_guarda,
+        'form1':form})
+    else:
+        try:
+            parte=get_object_or_404(Parte,pk=id)
+            form=ActualizaParte(request.POST,request.FILES,instance=parte)
+            form.save()
+            #return redirect('/subareas/1')
+            return redirect('detalle_maquina',id=parte.maquina_id)
+        except ValueError:
+            return render(request,'partes/detalle_parte.html',{
+                                'parte':parte,
                                 'activa_guarda':activa_guarda,
                                 'error':"Error actualizando la maquina",
                                 'form1':form})

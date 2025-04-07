@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm,SelectDateWidget
-from .models import mantenimientos,SubArea,Maquina,Parte
+from .models import mantenimientos,SubArea,Maquina,Parte,SubParte
 from django.contrib.admin import widgets 
 
 
@@ -54,6 +54,24 @@ class NuevaParte(ModelForm):
                                             'placeholder':'Ingrese descripcion de parte'})                              
         }
 
+class NuevaSubParte(ModelForm):
+    class Meta:
+        model=SubParte
+        fields=['parte','codigo','nombre','marca','modelo','descripción']
+
+        widgets={
+            'codigo_parte':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese código sub-parte'}),
+            'nombre':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese nombre sub-parte'}),
+            'marca':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese marca'}),
+            'modelo':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese modelo'}),
+            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+                                            'placeholder':'Ingrese descripcion de parte'})                             
+        }
+
 class CrearMantenimiento(ModelForm):
     #fecha_planificada=forms.DateField(widget = forms.SelectDateWidget())
 
@@ -97,6 +115,22 @@ class VerMaquina(ModelForm):
                                                 'rows':'5'})                                                
         }
 
+class VerParte(ModelForm):
+    class Meta:
+        model=Parte
+        fields="__all__"    #se usa para ver todos los campos
+
+        widgets={
+            'codigo_parte':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese código parte'}),
+            'nombre':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese nombre parte'}),
+            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+                                            'placeholder':'Ingrese descripcion de parte'}),
+            'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
+                                            'placeholder':'Ingrese descripcion de parte'})                              
+        }
+
 class ActualizaMaquina(ModelForm):
     class Meta:
         model=Maquina
@@ -106,4 +140,20 @@ class ActualizaMaquina(ModelForm):
             'codigo':forms.TextInput(attrs={'class':'form-control'}),
             'descripción':forms.Textarea(attrs={'class':'form-control',
                                                 'rows':'5'})                                                
+        }
+
+class ActualizaParte(ModelForm):
+    class Meta:
+        model=Parte
+        fields="__all__"    #se usa para ver todos los campos
+
+        widgets={
+            'codigo_parte':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese código parte'}),
+            'nombre':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese nombre parte'}),
+            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+                                            'placeholder':'Ingrese descripcion de parte'}),
+            'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
+                                            'placeholder':'Ingrese descripcion de parte'})                              
         }

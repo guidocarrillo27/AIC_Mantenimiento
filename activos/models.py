@@ -83,6 +83,27 @@ class Parte(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class SubParte(models.Model):
+
+    def inner(instance,filename):
+        ext = filename.split('.')[-1].lower()
+        
+        filename = '{}.{}'.format(uuid4().hex, ext)
+        return os.path.join("archivos_subpartes", filename)
+
+    parte=models.ForeignKey(Parte,on_delete=models.CASCADE)
+    codigo=models.CharField(max_length=100)
+    nombre=models.CharField(max_length=130) 
+    marca=models.CharField(max_length=130) 
+    modelo=models.CharField(max_length=130) 
+    descripción=models.TextField() 
+    repuesto=models.BooleanField(default=False) 
+    anexo1=models.ImageField(upload_to=inner,null=True,blank=True)    
+    anexo2=models.FileField(upload_to=inner,null=True,blank=True) 
+
+    def __str__(self):
+        return self.nombre
 
 class mantenimientos(models.Model):
 
