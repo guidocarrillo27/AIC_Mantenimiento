@@ -95,6 +95,7 @@ def crear_subarea(request):
 def nueva_maquina(request,id):   
     if request.method=='GET':
         area=get_object_or_404(SubArea,pk=id)
+        print(NuevaMaquina())
         return render(request,'subareas/nueva_maquina.html',{
         'area':area,
         'form':NuevaMaquina()})
@@ -103,7 +104,9 @@ def nueva_maquina(request,id):
         form=NuevaMaquina(request.POST,request.FILES)
         if form.is_valid():
             nueva_maquina=form.save(commit=False)
-            nueva_maquina.subarea_id=area.id
+            nueva_maquina.area_id=area.id
+            nueva_maquina.save()
+            nueva_maquina.codigo=area.cod_subArea+'-'+str(nueva_maquina.id)
             nueva_maquina.save()
             return redirect('detalle_subareas',id=id)
         else:
@@ -123,6 +126,7 @@ def nueva_parte(request,id):
         form=NuevaParte(request.POST,request.FILES)
         if form.is_valid():
             nueva_parte=form.save(commit=False)
+            nueva_parte.maquina_id=maquina.id
             nueva_parte.save()
             return redirect('detalle_maquina',id=id)
         else:

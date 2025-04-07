@@ -26,11 +26,9 @@ class CrearNuevaArea(forms.Form):
 class NuevaMaquina(ModelForm):
     class Meta:
         model=Maquina
-        fields=['area','codigo','nombre','descripción','disponibilidad','fecha_instalación','foto','link']
+        fields=['nombre','descripción','disponibilidad','fecha_instalación','foto','link']
 
         widgets={
-            'codigo':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese código máquina'}),
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre máquina'}),
             'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
@@ -41,7 +39,7 @@ class NuevaMaquina(ModelForm):
 class NuevaParte(ModelForm):
     class Meta:
         model=Parte
-        fields=['maquina','codigo_parte','nombre','descripción','mantenimiento','anexo1','anexo2']
+        fields=['codigo_parte','nombre','descripción','mantenimiento','anexo1','anexo2']
 
         widgets={
             'codigo_parte':forms.TextInput(attrs={'class':'form-control',

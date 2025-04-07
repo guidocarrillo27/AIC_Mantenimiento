@@ -53,7 +53,7 @@ class Maquina(models.Model):
     ]
 
     area=models.ForeignKey(SubArea,on_delete=models.CASCADE)                   #relación muchos a uno
-    codigo=models.CharField(max_length=15)                                  #campo que guarda el código de la máquina
+    codigo=models.CharField(max_length=25,null=True,blank=True)                                  #campo que guarda el código de la máquina
     nombre=models.CharField(max_length=100)                                 #campo guarda nombre máquina
     descripción=models.TextField()                                          #campo para escribir texto             
     disponibilidad=models.CharField(max_length=3,choices=estado_operativo)  #se escoge una opción de la lista de choices
