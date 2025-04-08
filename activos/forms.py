@@ -3,7 +3,6 @@ from django.forms import ModelForm,SelectDateWidget
 from .models import mantenimientos,SubArea,Maquina,Parte,SubParte
 from django.contrib.admin import widgets 
 
-
 class CrearNuevaTarea(ModelForm):
     #codigo=forms.CharField(label='Código')  #es para crear input tipo texto
     #nombre=forms.CharField(label='Nombre subárea',widget=forms.Textarea)
@@ -39,11 +38,9 @@ class NuevaMaquina(ModelForm):
 class NuevaParte(ModelForm):
     class Meta:
         model=Parte
-        fields=['codigo_parte','nombre','descripción','mantenimiento','anexo1','anexo2']
+        fields=['nombre','descripción','mantenimiento','anexo1','anexo2']
 
         widgets={
-            'codigo_parte':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese código parte'}),
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre parte'}),
             'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',

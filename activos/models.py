@@ -74,6 +74,7 @@ class Parte(models.Model):
         return os.path.join("archivos_partes", filename)
 
     maquina=models.ForeignKey(Maquina,on_delete=models.CASCADE)
+    num_parte=models.IntegerField()
     codigo_parte=models.CharField(max_length=100)
     nombre=models.CharField(max_length=130) 
     descripción=models.TextField() 

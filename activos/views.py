@@ -90,7 +90,7 @@ def crear_subarea(request):
         SubArea.objects.create(subarea_id=request.POST['subarea'],
                                nombre=request.POST['nombre'],
                             cod_subArea=request.POST['cod_subArea'])
-        return redirect('subareas')
+        return redirect('detalle_areas',id=request.POST['subarea'])
 
 def nueva_maquina(request,id):   
     if request.method=='GET':
@@ -115,9 +115,27 @@ def nueva_maquina(request,id):
         return render(request,'subareas/nueva_maquina.html',{
         'form':NuevaMaquina()})
 
-def nueva_parte(request,id):   
+def nueva_parte(request,id):
+    cant_parte=Parte.objects.filter(maquina_id=id).count()
+    parte=Parte.objects.filter(maquina_id=id)
+
+    lista=[]
+    for p in parte:
+        lista.append(p.num_parte)
+    print(lista)
+
+    item=1
+    while item <= cant_parte:
+        if item in lista:
+            item +=1
+        else:
+            break
+    print(item)
+
+
     if request.method=='GET':
         maquina=get_object_or_404(Maquina,pk=id)
+
         return render(request,'partes/nueva_parte.html',{
         'maquina':maquina,
         'form':NuevaParte()})
@@ -127,6 +145,8 @@ def nueva_parte(request,id):
         if form.is_valid():
             nueva_parte=form.save(commit=False)
             nueva_parte.maquina_id=maquina.id
+            nueva_parte.num_parte=item
+            nueva_parte.codigo_parte=maquina.codigo+'-P'+str(item)
             nueva_parte.save()
             return redirect('detalle_maquina',id=id)
         else:
