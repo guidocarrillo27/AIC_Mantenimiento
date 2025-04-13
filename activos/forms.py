@@ -52,11 +52,9 @@ class NuevaParte(ModelForm):
 class NuevaSubParte(ModelForm):
     class Meta:
         model=SubParte
-        fields=['parte','codigo','nombre','marca','modelo','descripción']
+        fields=['nombre','marca','modelo','descripción','anexo1','anexo2' ]
 
         widgets={
-            'codigo_parte':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese código sub-parte'}),
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre sub-parte'}),
             'marca':forms.TextInput(attrs={'class':'form-control',

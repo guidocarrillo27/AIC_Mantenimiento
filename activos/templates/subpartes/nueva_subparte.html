@@ -12,7 +12,7 @@
 
             <form method="POST" enctype="multipart/form-data" class="card card-body">
                 <h1 class="text-center">{{parte}}</h1>
-                <h6 class="text-center">CODIGO SUB-PARTE: {{parte.codigo_parte}}</h6>
+                <h6 class="text-center">CODIGO PARTE: {{parte.codigo_parte}}</h6>
                 
                 {% csrf_token %}
                 {{form.as_p}}

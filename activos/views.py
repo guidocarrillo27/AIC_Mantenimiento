@@ -106,7 +106,7 @@ def nueva_maquina(request,id):
             nueva_maquina=form.save(commit=False)
             nueva_maquina.area_id=area.id
             nueva_maquina.save()
-            nueva_maquina.codigo=area.cod_subArea+'-'+str(nueva_maquina.id)
+            nueva_maquina.codigo=area.cod_subArea+str(nueva_maquina.id)
             nueva_maquina.save()
             return redirect('detalle_subareas',id=id)
         else:
@@ -132,7 +132,6 @@ def nueva_parte(request,id):
             break
     print(item)
 
-
     if request.method=='GET':
         maquina=get_object_or_404(Maquina,pk=id)
 
@@ -155,7 +154,24 @@ def nueva_parte(request,id):
         return render(request,'partes/nueva_parte.html',{
         'form':()})
     
-def nueva_subparte(request,id):   
+def nueva_subparte(request,id):  
+
+    cant_subparte=SubParte.objects.filter(parte_id=id).count()
+    subparte=SubParte.objects.filter(parte_id=id)
+
+    lista=[]
+    for p in subparte:
+        lista.append(p.num_subparte)
+    print(lista)
+
+    item=1
+    while item <= cant_subparte:
+        if item in lista:
+            item +=1
+        else:
+            break
+    print(item)
+
     if request.method=='GET':
         parte=get_object_or_404(Parte,pk=id)
         return render(request,'subpartes/nueva_subparte.html',{
@@ -166,6 +182,9 @@ def nueva_subparte(request,id):
         form=NuevaSubParte(request.POST,request.FILES)
         if form.is_valid():
             nueva_subparte=form.save(commit=False)
+            nueva_subparte.parte_id=parte.id
+            nueva_subparte.num_subparte=item
+            nueva_subparte.codigo=parte.codigo_parte+'-'+str(item)
             nueva_subparte.save()
             return redirect('detalle_parte',id=id)
         else:

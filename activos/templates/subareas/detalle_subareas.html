@@ -1,38 +1,81 @@
 {%extends 'base.html' %}
 {%block content %}
 
-<div class="container">
-    <div class="row">
-        <section class="col-3 mt-3">
-            <div class="alert alert-secondary" role="alert">
-                <h3 class="text-center">Area:</h3>
+<div class="o_kanban_view o_view_controller o_action o_kanban_selection_available">  
+   
+    <div class="o_control_panel d-flex flex-column gap-3 px-3 pt-2 pb-3" data-command-category="actions">
+        <div class="o_control_panel_main d-flex flex-wrap flex-lg-nowrap justify-content-between align-items-lg-start gap-lg-3 flex-grow-1">
+            <div class="o_control_panel_breadcrumbs d-flex align-items-center gap-1 order-0 h-lg-100">
+                <div class="o_control_panel_main_buttons d-flex gap-1 d-empty-none d-print-none">
+                    <div class="d-inline-flex gap-1">
+                        <a class="btn btn-success btn-lg" href="{% url 'nueva_maquina' subarea.id %}">Nueva</a>
+                        <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
+                            <span class="min-w-0 text-truncate">
+                                Area: {{subarea}}
+                            </span>
+                        </div>
+                        <div class="o_cp_buttons d-empty-none d-flex align-items-baseline gap-1" role="toolbar" aria-label="Main actions">                          
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="me-auto">
+                    </div>
             </div>
-        </section>
-        <section class="col-6 mt-3">
-            <div class="alert alert-success" role="alert">
-                <h3 class="text-center">{{subarea}}</h3>
+            <div class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 mw-100 w-lg-auto">
+                    <div class="o_cp_searchview d-flex input-group mt-1 mt-md-0" role="search">
+                        <div class="o_searchview form-control d-print-contents d-flex align-items-center py-1 border-end-0" role="search" aria-autocomplete="list" aria-expanded="false">
+                            <button class="d-print-none btn border-0 p-0" role="button" aria-label="Search..." title="Buscar…">
+                                <i class="o_searchview_icon oi oi-search me-2" role="img"></i>
+                            </button>
+                            <div class="o_searchview_input_container d-flex flex-grow-1 flex-wrap gap-1 mw-100">
+                                <input type="text" class="o_searchview_input o_input d-print-none flex-grow-1 w-auto border-0" accesskey="Q" placeholder="Buscar…" role="searchbox">
+                            </div>
+                        </div>
+                        <button class="o_searchview_dropdown_toggler d-print-none btn btn-outline-secondary o-dropdown-caret rounded-start-0 o-dropdown dropdown-toggle dropdown" data-hotkey="shift+q" title="Alternar panel de búsqueda" aria-expanded="false">
+
+                        </button>
+                    </div>
             </div>
-        </section>
-        <section class="col-3 mt-3">
-            <div>
-                <a class="btn btn-success btn-lg" href="{% url 'nueva_maquina' subarea.id %}">Crear Nueva Máquina</a>
-            </div>
-        </section>
-           
-        {% for maquina in maquinas %}
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5>{{maquina.nombre}}</h5>
-                <h6>CODIGO MÁQUINA:{{maquina.codigo}}</h6>
-                <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-dark" href="{% url 'detalle_maquina' maquina.id %}">  Detalles</a>
-                    <a class="btn btn-primary" href="{% url 'mantenimiento_maquina_pendiente' maquina.id %}">Mantenimientos</a>
-                </div>   
+            <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-1 gap-xl-3 order-1 order-lg-2 flex-grow-1">
+                <nav class="o_cp_switch_buttons d-print-none d-inline-flex btn-group">
+                    <button class="btn btn-secondary o_switch_view o_kanban active" data-tooltip="Kanban" aria-label="Kanban View">
+                        <i class="oi oi-view-kanban"></i>
+                    </button>
+                    <button class="btn btn-secondary o_switch_view o_list" data-tooltip="Lista" aria-label="Lista View">
+                        <i class="oi oi-view-list"></i>
+                    </button>
+                </nav>
             </div>
         </div>
-        {% endfor %}
-    
     </div>
+
+    <main class="o_content">
+        <div class="o_kanban_renderer o_renderer d-flex user-select-none o_kanban_ungrouped align-content-start flex-wrap justify-content-start">        
+                {% for maquina in maquinas %}
+                <article class="o_kanban_record d-flex cursor-pointer o_kanban_color_0 flex-grow-1 flex-md-shrink-1 flex-shrink-0">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <h5>{{maquina.nombre}}</h5>
+                            <h6>CODIGO MÁQUINA:{{maquina.codigo}}</h6>
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-dark" href="{% url 'detalle_maquina' maquina.id %}">  Detalles</a>
+                                <a class="btn btn-primary" href="{% url 'mantenimiento_maquina_pendiente' maquina.id %}">Mantenimientos</a>
+                            </div>
+                            <footer>
+                                <div class="badge text-bg-danger">
+                                    <span>21</span> Solicitud
+                                </div>
+                            </footer>  
+                        </div>
+                    </div>
+
+                </article>
+                {% endfor %}
+
+        </div>
+    </main>
+
 </div>
 
 

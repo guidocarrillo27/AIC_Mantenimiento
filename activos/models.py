@@ -95,6 +95,7 @@ class SubParte(models.Model):
 
     parte=models.ForeignKey(Parte,on_delete=models.CASCADE)
     codigo=models.CharField(max_length=100)
+    num_subparte=models.IntegerField()
     nombre=models.CharField(max_length=130) 
     marca=models.CharField(max_length=130) 
     modelo=models.CharField(max_length=130) 
