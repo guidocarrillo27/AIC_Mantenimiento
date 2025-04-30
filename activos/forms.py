@@ -25,25 +25,25 @@ class CrearNuevaArea(forms.Form):
 class NuevaMaquina(ModelForm):
     class Meta:
         model=Maquina
-        fields=['nombre','descripción','disponibilidad','fecha_instalación','foto','link']
+        fields=['nombre','descripcion','disponibilidad','fecha_instalacion','foto','link']
 
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre máquina'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de máquina'}),
-            'fecha_instalación':forms.widgets.DateInput(attrs={'type':'date'})                                
+            'fecha_instalacion':forms.widgets.DateInput(attrs={'type':'date'})                                
         }
 
 class NuevaParte(ModelForm):
     class Meta:
         model=Parte
-        fields=['nombre','descripción','mantenimiento','anexo1','anexo2']
+        fields=['nombre','descripcion','mantenimiento','anexo1','anexo2']
 
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre parte'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'}),
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              
@@ -52,7 +52,7 @@ class NuevaParte(ModelForm):
 class NuevaSubParte(ModelForm):
     class Meta:
         model=SubParte
-        fields=['nombre','marca','modelo','descripción','anexo1','anexo2' ]
+        fields=['nombre','marca','modelo','descripcion','anexo1','anexo2' ]
 
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control',
@@ -61,7 +61,7 @@ class NuevaSubParte(ModelForm):
                                             'placeholder':'Ingrese marca'}),
             'modelo':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese modelo'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                             
         }
 
@@ -99,12 +99,12 @@ class VerMaquina(ModelForm):
         model=Maquina
         fields="__all__"    #se usa para ver todos los campos
 
-        fields=['area','codigo','descripción',
-                'disponibilidad','fecha_instalación','link']
+        fields=['area','codigo','descripcion',
+                'disponibilidad','fecha_instalacion','link']
 
         widgets={
             'codigo':forms.TextInput(attrs={'class':'form-control'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control',
+            'descripcion':forms.Textarea(attrs={'class':'form-control',
                                                 'rows':'5'})                                                
         }
 
@@ -118,7 +118,7 @@ class VerParte(ModelForm):
                                             'placeholder':'Ingrese código parte'}),
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre parte'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'}),
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              
@@ -131,7 +131,7 @@ class ActualizaMaquina(ModelForm):
 
         widgets={
             'codigo':forms.TextInput(attrs={'class':'form-control'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control',
+            'descripcion':forms.Textarea(attrs={'class':'form-control',
                                                 'rows':'5'})                                                
         }
 
@@ -145,7 +145,7 @@ class ActualizaParte(ModelForm):
                                             'placeholder':'Ingrese código parte'}),
             'nombre':forms.TextInput(attrs={'class':'form-control',
                                             'placeholder':'Ingrese nombre parte'}),
-            'descripción':forms.Textarea(attrs={'class':'form-control','rows':'7',
+            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'}),
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              

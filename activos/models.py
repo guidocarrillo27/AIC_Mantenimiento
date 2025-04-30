@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from uuid import uuid4
 
 class Area(models.Model):
-    cod_area=models.IntegerField()
+    cod_area=models.CharField(max_length=15)
     nombre=models.CharField(max_length=200)
 
     def __str__(self):
@@ -55,9 +55,9 @@ class Maquina(models.Model):
     area=models.ForeignKey(SubArea,on_delete=models.CASCADE)                   #relación muchos a uno
     codigo=models.CharField(max_length=25,null=True,blank=True)                                  #campo que guarda el código de la máquina
     nombre=models.CharField(max_length=100)                                 #campo guarda nombre máquina
-    descripción=models.TextField()                                          #campo para escribir texto             
+    descripcion=models.TextField()                                          #campo para escribir texto             
     disponibilidad=models.CharField(max_length=3,choices=estado_operativo)  #se escoge una opción de la lista de choices
-    fecha_instalación = models.DateField()                                  #campo que guarda fecha de instalación máquina
+    fecha_instalacion = models.DateField()                                  #campo que guarda fecha de instalación máquina
     fecha_updated=models.DateField(auto_now=True)                           #campo para guardar la fecha en cada modificación
     foto=models.ImageField(upload_to=wrapper,null=True,blank=True)     #null=True indica que admite valores nulos
     link=models.FileField(upload_to=inner,null=True,blank=True) 
@@ -77,7 +77,7 @@ class Parte(models.Model):
     num_parte=models.IntegerField()
     codigo_parte=models.CharField(max_length=100)
     nombre=models.CharField(max_length=130) 
-    descripción=models.TextField() 
+    descripcion=models.TextField() 
     mantenimiento=models.TextField(null=True,blank=True)  
     anexo1=models.FileField(upload_to=inner,null=True,blank=True)    
     anexo2=models.FileField(upload_to=inner,null=True,blank=True) 
@@ -99,7 +99,7 @@ class SubParte(models.Model):
     nombre=models.CharField(max_length=130) 
     marca=models.CharField(max_length=130) 
     modelo=models.CharField(max_length=130) 
-    descripción=models.TextField() 
+    descripcion=models.TextField() 
     repuesto=models.BooleanField(default=False) 
     anexo1=models.ImageField(upload_to=inner,null=True,blank=True)    
     anexo2=models.FileField(upload_to=inner,null=True,blank=True) 
