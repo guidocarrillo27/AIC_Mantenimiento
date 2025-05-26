@@ -10,7 +10,7 @@ DATABASES = {
         'NAME':'mantenimiento',
         'USER':'postgres',
         'PASSWORD':'Gabcavel_1511',
-        'HOST':'192.168.68.116',
+        'HOST':'localhost',
         'PORT':'5432'
     }
 }

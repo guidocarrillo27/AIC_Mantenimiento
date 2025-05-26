@@ -5,68 +5,82 @@
     <h1 class="text-center">{{maquina}}</h1>
 </div>
 
+
 <div class="container">
-    <div class="row">
-
-      <div class="col-5">
-            <form method="POST" enctype="multipart/form-data" class="card card-body">
-                <fieldset disabled>
-                    <h3 class="text-center">Detalle de la máquina</h3>
+        <div class="row">
+            <div class="col-6">
+                <form method="POST" enctype="multipart/form-data" class="card card-body">
+                    <fieldset disabled>
+                        <h3 class="text-center">Detalle de la máquina</h3>
+                        {% csrf_token %}
+                        {{form.as_p}}
+                    </fieldset>
                     {% csrf_token %}
-                    {{form.as_p}}                  
-                </fieldset>
-                {% csrf_token %}
-                {{form1.as_p}}
-                {{error}}
-                {% if activa_guarda == True %}
+                    {{form1.as_p}}
+                    {{error}}
+                    {% if activa_guarda == True %}
                     <button class="btn btn-success">Guarda</button>
-                {% endif %}
-            </form>
-      </div>
-
-      <div class="col-4">
-            <form action="" class="card card-body">
-                <h3 class="text-center">Imagen de la máquina</h3>
-                <img src="/media/{{maquina.foto}}" style="max-width:90%;max-height:100%;" alt="">                          
-            </form>
-      </div>
-
-        <div class="col-3">
-            <div class="card mt-2">
-                <a href="{% url 'actualiza_maquina' maquina.id %}" class="btn btn-success">Actualizar</a>
+                    {% endif %}
+                </form>
             </div>
-            <div class="card mt-2">    
-                <a class="btn btn-dark" href="{% url 'detalle_subareas' maquina.area_id %}">Ir al Area</a>
-            </div>
-                <div class="card mt-2">
-                <a class="btn btn-primary" href="{% url 'mantenimiento_maquina_pendiente' maquina.id %}">Mantenimientos</a>
-            </div>
-            <div class="card mt-2">
-                <a class="btn btn-primary" href="{% url 'nueva_parte' maquina.id %}">Nueva parte</a>
-            </div>
-        </div>
 
-    </div>
-
-    <div class="row">
-        <div class="col mt-3">
-            {% for parte in partes %}
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>{{parte.nombre}}</h5>
-                    <h6>CODIGO PARTE:{{parte.codigo_parte}}</h6>
-                    <h7>{{parte.descripción}}</h7>
-                    <h7><a href="/media/{{parte.anexo1}}">Anexo1</a></h7>
-                    <h7><a href="/media/{{parte.anexo2}}">Anexo2</a></h7>
-                    <div class="d-grid gap-2 d-md-block">
-                        <a class="btn btn-dark" href="{% url 'detalle_parte' parte.id %}">Detalles</a>
-                    </div>   
+            <div class="col-6">
+                <div class="card card-body">
+                    <img src="{% if maquina.foto %}{{ maquina.foto.url }}{% else %}https://via.placeholder.com/300x200?text=No+Imagen{% endif %}"
+                        class="img-fluid" alt="{{ maquina.nombre }}">
+                    <a href="{% url 'actualiza_maquina' maquina.id %}" class="btn btn-success">Actualizar</a>
+                    <a class="btn btn-dark" href="{% url 'detalle_subareas' maquina.area_id %}">Ir al Area</a>
+                    <a class="btn btn-primary"
+                        href="{% url 'mantenimiento_maquina_pendiente' maquina.id %}">Mantenimientos</a>
+                    <a class="btn btn-primary" href="{% url 'nueva_parte' maquina.id %}">Nueva parte</a>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+
+        <h3>Partes</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Mantenimiento</th>
+                    <th>Anexo 1</th>
+                    <th>Anexo 2</th>
+                    <th>Detalles</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for parte in partes %}
+                    <tr>
+                        <td>{{ parte.codigo_parte }}</td>
+                        <td>{{ parte.nombre }}</td>
+                        <td>{{ parte.mantenimiento }}</td>
+                        <td>
+                            {% if parte.anexo1 %}
+                            <a href="{{ parte.anexo1.url }}" target="_blank">Ver archivo</a>
+                            {% else %}
+                            No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if parte.anexo2 %}
+                            <a href="{{ parte.anexo2.url }}" target="_blank">Ver archivo</a>
+                            {% else %}
+                            No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-dark" href="{% url 'detalle_parte' parte.id %}">Detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         </div>
-    </div>
-
 
 {% endblock %}
+

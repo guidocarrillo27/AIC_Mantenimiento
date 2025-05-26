@@ -2,22 +2,18 @@
 {% block content %}
 
 <div class="container">
+    <h1>Máquinas</h1>
     <div class="row">
-        <section class="col mt-3">
-            <div class="alert alert-secondary" role="alert">
-                <h3 class="text-center">Maquinas del campamento AIC</h3>
-            </div>
-        </section>
-           
         {% for maquina in maquinas %}
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5>{{maquina.codigo}} : {{maquina.nombre}}</h5>
-                <small>CODIGO: {{maquina.codigo}}</small>
-                <div class="d-grid gap-2 d-md-block">
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <img src="{% if maquina.foto %}{{ maquina.foto.url }}{% else %}https://via.placeholder.com/300x200?text=No+Imagen{% endif %}" class="card-img-top" alt="{{ maquina.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ maquina.nombre }}</h5>
+                    <p class="card-text">CODIGO: {{ maquina.codigo }}</p>
                     <a class="btn btn-primary" href="{% url 'mantenimiento_maquina_pendiente' maquina.id %}">Mantenimientos</a>
-                    <a class="btn btn-dark" href="{% url 'detalle_maquina' maquina.id %}">  Detalles</a>
-                </div>   
+                    <a class="btn btn-dark" href="{% url 'detalle_maquina' maquina.id %}"> Detalles</a>
+                </div>
             </div>
         </div>
         {% endfor %}
