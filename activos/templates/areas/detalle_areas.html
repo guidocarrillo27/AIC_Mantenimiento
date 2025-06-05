@@ -3,17 +3,18 @@
 
 <div class="container">
     <div class="row">
-        <section class="col-3 mt-3">
-            <div class="alert alert-secondary" role="alert">
-                <h3 class="text-center">Localización:</h3>
-            </div>
-        </section>
-        <section class="col-9 mt-3">
-            <div class="alert alert-success" role="alert">
-                <h3 class="text-center">{{area}}</h3>
-            </div>
-        </section>
-       
+        <div class="col-md-6 mt-4">
+            <h3>Locación: {{area}} </h3>
+        </div>
+        <div class="col-md-6 mt-4">
+            <a href="{% url 'crear_subarea' %}" class="btn btn-info" title="Crear area">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+
         {% for subarea in subareas %}
         <ul class="card">
             <li>
@@ -22,7 +23,7 @@
                 </a>
                 <h6>Código de área: {{subarea.cod_subArea}}</h6>
             </li>
-        </ul> 
+        </ul>
         {% endfor %}
 
     </div>

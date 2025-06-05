@@ -1,6 +1,13 @@
 from django import forms
 from django.forms import ModelForm,SelectDateWidget
-from .models import mantenimientos,SubArea,Maquina,Parte,SubParte
+from activos.modelos.Area import Area
+from activos.modelos.SubArea import SubArea
+from activos.modelos.Maquina import Maquina
+from activos.modelos.mantenimientos import mantenimientos
+from activos.modelos.Parte import Parte
+from activos.modelos.Parte_Repuesto import ParteRepuesto
+from activos.modelos.Repuesto import Repuesto
+from activos.modelos.Categoria import Categoria
 from django.contrib.admin import widgets 
 
 class CrearNuevaTarea(ModelForm):
@@ -38,7 +45,7 @@ class NuevaMaquina(ModelForm):
 class NuevaParte(ModelForm):
     class Meta:
         model=Parte
-        fields=['nombre','descripcion','mantenimiento','anexo1','anexo2']
+        fields=['nombre','descripcion','mantenimiento','foto','anexo']
 
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control',
@@ -47,22 +54,6 @@ class NuevaParte(ModelForm):
                                             'placeholder':'Ingrese descripcion de parte'}),
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              
-        }
-
-class NuevaSubParte(ModelForm):
-    class Meta:
-        model=SubParte
-        fields=['nombre','marca','modelo','descripcion','anexo1','anexo2' ]
-
-        widgets={
-            'nombre':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese nombre sub-parte'}),
-            'marca':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese marca'}),
-            'modelo':forms.TextInput(attrs={'class':'form-control',
-                                            'placeholder':'Ingrese modelo'}),
-            'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'7',
-                                            'placeholder':'Ingrese descripcion de parte'})                             
         }
 
 class CrearMantenimiento(ModelForm):
@@ -108,6 +99,20 @@ class VerMaquina(ModelForm):
                                                 'rows':'5'})                                                
         }
 
+class ActualizaMaquina(ModelForm):
+    class Meta:
+        model=Maquina
+        fields="__all__"    #se usa para ver todos los campos
+
+        widgets={
+            'codigo':forms.TextInput(attrs={'class':'form-control'}),
+            'nombre':forms.TextInput(attrs={'class':'form-control',
+                                            'placeholder':'Ingrese nombre máquina'}),
+            'fecha_instalacion':forms.widgets.DateInput(attrs={'type':'date'}),
+            'descripcion':forms.Textarea(attrs={'class':'form-control',
+                                                'rows':'5'})                                                
+        }
+
 class VerParte(ModelForm):
     class Meta:
         model=Parte
@@ -122,17 +127,6 @@ class VerParte(ModelForm):
                                             'placeholder':'Ingrese descripcion de parte'}),
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              
-        }
-
-class ActualizaMaquina(ModelForm):
-    class Meta:
-        model=Maquina
-        fields="__all__"    #se usa para ver todos los campos
-
-        widgets={
-            'codigo':forms.TextInput(attrs={'class':'form-control'}),
-            'descripcion':forms.Textarea(attrs={'class':'form-control',
-                                                'rows':'5'})                                                
         }
 
 class ActualizaParte(ModelForm):
@@ -150,3 +144,22 @@ class ActualizaParte(ModelForm):
             'mantenimiento':forms.Textarea(attrs={'class':'form-control','rows':'7',
                                             'placeholder':'Ingrese descripcion de parte'})                              
         }
+
+class CategoriaForm(ModelForm):
+    class Meta:
+        model=Categoria
+        fields=['nombre']
+
+class RepuestoForm(ModelForm):
+    class Meta:
+        model = Repuesto
+        fields = ['categoria', 'nombre', 'descripcion', 'cantidad_bodega', 'foto', 'anexo']
+
+class ParteRepuestoForm(ModelForm):
+    class Meta:
+        model = ParteRepuesto
+        fields = ['repuesto', 'cantidad']
+
+
+
+

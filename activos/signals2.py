@@ -3,7 +3,7 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from .models import Activo
+from .modelos import Activo
 
 @receiver(pre_save, sender=Activo)
 def compress_pdf(sender, instance, **kwargs):

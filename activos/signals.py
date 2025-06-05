@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from .models import Maquina
+from .modelos import Maquina
 
 @receiver(pre_save, sender=Maquina)
 def compress_image(sender, instance, **kwargs):

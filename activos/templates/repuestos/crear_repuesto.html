@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="mb-4">Crear Repuesto</h2>
+
+            <!-- Formulario para crear un repuesto -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_categoria" class="form-label">Categoría</label>
+                    <div class="input-group">
+                        <!-- Dropdown para seleccionar la categoría o crear una nueva -->
+                        <select name="categoria" id="id_categoria" class="form-select" required>
+                            <option value="" selected disabled>Selecciona una categoría</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#modalCategoria">Añadir Nueva Categoría</button>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" id="id_nombre" class="form-control"
+                        placeholder="Nombre del repuesto" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    <textarea name="descripcion" id="id_descripcion" class="form-control" rows="4"
+                        placeholder="Descripción del repuesto" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_cantidad_bodega" class="form-label">Cantidad en Bodega</label>
+                    <input type="number" name="cantidad_bodega" id="id_cantidad_bodega" class="form-control" min="1"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_foto" class="form-label">Foto</label>
+                    <input type="file" name="foto" id="id_foto" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_anexo" class="form-label">Anexo</label>
+                    <input type="file" name="anexo" id="id_anexo" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Repuesto</button>
+            </form>
+
+            <!-- Modal para añadir una nueva categoría -->
+            <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="modalCategoriaLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalCategoriaLabel">Añadir Nueva Categoría</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'crear_categoria' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="nombre_categoria" class="form-label">Nombre de la Categoría</label>
+                                    <input type="text" name="nombre" id="nombre_categoria" class="form-control"
+                                        placeholder="Nombre de la categoría" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Añadir Categoría</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Scripts de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+{% endblock %}

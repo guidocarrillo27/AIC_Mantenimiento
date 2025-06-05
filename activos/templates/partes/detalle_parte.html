@@ -1,67 +1,201 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div>
-    <h1 class="text-center">{{parte}}</h1>
-</div>
-
 <div class="container">
     <div class="row">
-
-      <div class="col-5">
-            <form method="POST" enctype="multipart/form-data" class="card card-body">
-                <fieldset disabled>
-                    <h3 class="text-center">Detalle de la parte</h3>
-                    {% csrf_token %}
-                    {{form.as_p}}                  
-                </fieldset>
-                {% csrf_token %}
-                {{form1.as_p}}
-                {{error}}
-                {% if activa_guarda == True %}
-                    <button class="btn btn-success">Guarda</button>
-                {% endif %}
-            </form>
-      </div>
-
-      <div class="col-4">
-            <form action="" class="card card-body">
-                <h3 class="text-center">Imagen de la parte</h3>
-                <img src="/media/{{parte.anexo1}}" style="max-width:90%;max-height:100%;" alt="">                          
-            </form>
-      </div>
-
-        <div class="col-3">
-            <div class="card mt-2">
-                <a href="{% url 'actualiza_parte' parte.id %}" class="btn btn-success">Actualizar</a>
-            </div>
-            <div class="card mt-2">    
-                <a class="btn btn-dark" href="{% url 'detalle_maquina' parte.maquina_id %}">Ir a la máquina</a>
-            </div>
-            <div class="card mt-2">
-                <a class="btn btn-primary" href="{% url 'nueva_subparte' parte.id %}">Nueva Sub-parte</a>
+        <div class="col-md-4 mt-4">
+            <div class="text-begin bottom-0 mb-2">
+                <a href="{% url 'actualiza_parte' parte.id %}" class="btn btn-primary btn-sm"
+                    title="Actualizar">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'detalle_maquina' parte.maquina_id %}"
+                    class="btn btn-secondary btn-sm" title="Ir al Area">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <a href="{% url 'mantenimiento_maquina_pendiente' parte.maquina.id %}"
+                    class="btn btn-success btn-sm" title="Mantenimiento">
+                    <i class="fas fa-calendar"></i>
+                </a>
             </div>
         </div>
-
+        <div class="col-md-8 mt-2">
+            <h1>{{parte}}</h1>
+        </div>
     </div>
+</div>
 
+
+<div class="container mt-3">
     <div class="row">
-        <div class="col mt-5">
-            {{subpartes}}
-            {% for subparte in subpartes %}
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>{{subparte.nombre}}</h5>
-                    <h6>CODIGO SUB-PARTE:{{subparte.codigo}}</h6>
-                    <h7>{{subparte.descripción}}</h7>
-                    <h7><a href="/media/{{subparte.anexo1}}">Anexo1</a></h7>
-                    <h7><a href="/media/{{subparte.anexo2}}">Anexo2</a></h7>  
+        <!-- Primera tarjeta: Foto de la parte -->
+        <div class="col-md-3">
+            <div class="card shadow" style="height: 450px;">
+                <div class="card-header bg-primary text-white card-header-small">
+                    <h5 class="my-0 font-weight-normal">Foto de la Parte</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if parte.foto %}
+                    <img src="{{ parte.foto.url }}" alt="Foto de la parte" class="img-fluid"
+                        style="max-width: 100%; height: auto; max-height: 350px;">
+                    {% else %}
+                    <p>No hay foto disponible.</p>
+                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
+        </div>
 
+        <!-- Segunda tarjeta: Datos de la parte -->
+        <div class="col-md-9">
+            <div class="card shadow" style="height: 450px;">
+                <div class="card-header bg-primary text-white card-header-small">
+                    <h5 class="my-0 font-weight-normal">Datos de la parte</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Componente Tabs de Bootstrap 5 -->
+                    <ul class="nav nav-tabs" id="parteTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="datos-generales-tab" data-bs-toggle="tab"
+                                href="#datos-generales" role="tab" aria-controls="datos-generales"
+                                aria-selected="true">Datos Generales</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="descripcion-tab" data-bs-toggle="tab" href="#descripcion" role="tab"
+                                aria-controls="descripcion" aria-selected="false">Descripción</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="mantenimiento-tab" data-bs-toggle="tab" href="#mantenimiento" role="tab"
+                                aria-controls="mantenimiento" aria-selected="false">Actividades Mantenimiento</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="parteTabsContent">
+                        <!-- Pestaña Datos Generales -->
+                        <div class="tab-pane fade show active" id="datos-generales" role="tabpanel"
+                            aria-labelledby="datos-generales-tab">
+                            <div class="form-group mt-3">
+                                <label for="area" style="font-weight:bold;">Area:</label>
+                                <p>{{ parte.maquina.area.nombre }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="area" style="font-weight:bold;">Máquina:</label>
+                                <p>{{ parte.maquina.nombre }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="codigo" style="font-weight:bold;">Código</label>
+                                <p class="form-control-plaintext">{{ parte.codigo_parte }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre" style="font-weight:bold;">Nombre:</label>
+                                <p>{{ parte.nombre }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="archivo" style="font-weight:bold;">Archivo</label>
+                                {% if parte.anexo2 %}
+                                <a href="{{ parte.anexo2.url }}" target="_blank">Ver archivo</a>
+                                {% else %}
+                                No disponible
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Pestaña Descripción -->
+                        <div class="tab-pane fade" id="descripcion" role="tabpanel" aria-labelledby="descripcion-tab">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3 mt-3">
+                                    <p>{{parte.descripcion}}</p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Pestaña mantenimiento -->
+                        <div class="tab-pane fade" id="mantenimiento" role="tabpanel" aria-labelledby="mantenimiento-tab">
+                                <p>{{parte.mantenimiento}}</p> 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="row mt-4">
+        <!-- Mostrar los repuestos asociados a la parte -->
+        <h3>Repuestos de {{parte}}</h3>
+        {% if parte_repuestos %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Repuesto</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for parte_repuesto in parte_repuestos %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ parte_repuesto.repuesto.nombre }}</td>
+                            <td>{{ parte_repuesto.cantidad }}</td>
+                            <td>
+                                <form action="{% url 'eliminar_parte_repuesto' parte_repuesto.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay repuestos asociados a esta parte.</p>
+        {% endif %}
+
+        <!-- Botón para abrir el formulario de agregar repuesto -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarRepuestoModal">
+            Agregar Repuesto
+        </button>
+
+        <!-- Modal para agregar repuesto -->
+        <div class="modal fade" id="agregarRepuestoModal" tabindex="-1" aria-labelledby="agregarRepuestoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarRepuestoModalLabel">Agregar Repuesto a la Parte</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_repuesto" class="form-label">Selecciona un repuesto</label>
+                                <!-- Lista desplegable de repuestos -->
+                                <select id="id_repuesto" name="repuesto" class="form-control" required>
+                                    <option value="">Selecciona un repuesto</option>
+                                    {% for repuesto in repuestos %}
+                                        <option value="{{ repuesto.id }}">{{ repuesto.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_cantidad" class="form-label">Cantidad</label>
+                                <input type="number" id="id_cantidad" name="cantidad" class="form-control" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar Repuesto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</div>
+
+
 
 
 {% endblock %}
