@@ -467,6 +467,15 @@ def lista_repuestos(request):
         'categoria_id': categoria_id,
     })
 
+def detalle_repuesto(request, id):
+    repuesto=get_object_or_404(Repuesto, pk=id)
+
+    form=RepuestoForm(instance=repuesto)
+    return render(request,'repuestos/detalle_repuesto.html',{
+        'repuesto':repuesto,
+        'form':form,
+    })
+
 def buscar_repuestos(request):
     # Obtener el término de búsqueda desde el parámetro GET
     query = request.GET.get('term', '')

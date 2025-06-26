@@ -37,6 +37,7 @@ urlpatterns = [
     #Referente a los repuestos y categorías
     path('crear_repuesto/',views.crear_repuesto,name="crear_repuesto"),
     path('repuestos/',views.lista_repuestos,name="lista_repuestos"),
+    path('detalle_repuesto/<int:id>',views.detalle_repuesto,name="detalle_repuesto"),
     path('buscar-repuestos/',views.buscar_repuestos,name="buscar_repuestos"),
     path('crear_categoria/',views.crear_categoria,name="crear_categoria"),
     path('eliminar-parte-repuesto/<int:id>/',views.eliminar_parte_repuesto,name="eliminar_parte_repuesto"),

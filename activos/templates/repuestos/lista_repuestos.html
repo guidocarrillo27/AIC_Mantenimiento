@@ -26,7 +26,7 @@
                 <div class="col-md-4">
                     <label for="categoria" class="form-label">Filtrar por Categoría</label>
                     <select name="categoria" id="categoria" class="form-select">
-                        <option value="">Selecciona una categoría</option>
+                        <option value="">Todos los repuestos</option>
                         {% for categoria in categorias %}
                             <option value="{{ categoria.id }}" 
                                     {% if categoria.id == categoria_id %}selected{% endif %}>
@@ -72,6 +72,7 @@
                     <th scope="col">Descripción</th>
                     <th scope="col">Categoría</th>
                     <th scope="col">Cantidad en Bodega</th>
+                    <th scope="col">Detalle</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,6 +83,11 @@
                         <td>{{ repuesto.descripcion }}</td>
                         <td>{{ repuesto.categoria.nombre }}</td>
                         <td>{{ repuesto.cantidad_bodega }}</td>
+                        <td>
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-dark" href="{% url 'detalle_repuesto' repuesto.id %}">Detalles</a>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

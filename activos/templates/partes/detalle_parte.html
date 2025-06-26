@@ -129,6 +129,7 @@
                         <th scope="col">Item</th>
                         <th scope="col">Repuesto</th>
                         <th scope="col">Cantidad</th>
+                        <th scope="col" style="width:200px;">Enlaces</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,11 +139,21 @@
                             <td>{{ parte_repuesto.repuesto.nombre }}</td>
                             <td>{{ parte_repuesto.cantidad }}</td>
                             <td>
-                                <form action="{% url 'eliminar_parte_repuesto' parte_repuesto.id %}" method="POST" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
-
+                                <div class="container">
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-sm text-center">
+                                            <form action="{% url 'eliminar_parte_repuesto' parte_repuesto.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="d-grid gap-2 d-md-block">
+                                                <a class="btn btn-dark btn-sm" href="{% url 'detalle_repuesto' parte_repuesto.repuesto.id %}">Detalles</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
